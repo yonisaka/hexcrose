@@ -99,6 +99,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -112,7 +174,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">February 8, 2020&nbsp;&nbsp;23:01:09</a>
+                        Date: <a href="#">February 10, 2020&nbsp;&nbsp;23:01:09</a>
                         </span>
                     
                     
@@ -121,8 +183,15 @@
         </header>
 
         <div class="post-content">
-            <img src="/image/node.png" height="200px">
-![](/image/node.png)
+            <img src="/image/node.png" alt="Node" title="NodeJS" width="260" />
+
+<p>Node.js punya NPM atau Node Package Manager, yaitu managemen paket librari untuk Node.js. NPM memudahkan pengembang untuk membagikan librari dan aplikasi node, sehingga orang lain dapat dengan mudah memasang dan mencopot librari pada programnya.</p>
+<h2 id="Cara-install-di-Windows-dan-Mac-OS"><a href="#Cara-install-di-Windows-dan-Mac-OS" class="headerlink" title="Cara install di Windows dan Mac OS"></a>Cara install di Windows dan Mac OS</h2><p>Cukup download di web resmi lalu jalankan installer nya <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">disini</a></p>
+<h2 id="Cara-install-di-Linux-berbasis-Ubuntu-Debian"><a href="#Cara-install-di-Linux-berbasis-Ubuntu-Debian" class="headerlink" title="Cara install di Linux berbasis Ubuntu / Debian"></a>Cara install di Linux berbasis Ubuntu / Debian</h2><p>Jalankan perintah berikut</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -</span><br><span class="line">$ sudo apt-get install -y nodejs</span><br><span class="line">$ sudo apt-get install -y build-essential</span><br></pre></td></tr></table></figure>
+<h3 id="Cek-apakah-nodeJS-sudah-atau-belom"><a href="#Cek-apakah-nodeJS-sudah-atau-belom" class="headerlink" title="Cek apakah nodeJS sudah atau belom"></a>Cek apakah nodeJS sudah atau belom</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node -v</span><br><span class="line">$ npm -v</span><br></pre></td></tr></table></figure>
+
+
 
         </div>
 
@@ -158,6 +227,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/02/13/Apa-itu-AdonisJS/">Apa itu AdonisJS?</a>
             
             
             <a class="next" rel="next" href="/2020/02/08/Apa-itu-Handlebars/">Apa itu Handlebars?</a>
