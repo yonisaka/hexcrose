@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yoni Saka">
+
+
+
+
+
+<title>CRUD NodeJS + ExpressJS + Semantic UI + Handlebars + Mysql (Part 2) | Lacrose</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Lacrose</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+               <!--<input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>-->
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Lacrose</a><a id="mobile-toggle-theme"></a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CRUD NodeJS + ExpressJS + Semantic UI + Handlebars + Mysql (Part 2)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Yoni Saka</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 14, 2020&nbsp;&nbsp;1:18:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="5-View"><a href="#5-View" class="headerlink" title="#5 View"></a>#5 View</h3><p>Jadi struktur view nya seperti dibawah ini<br><img src="/image/SS_CRUD_node2.png" alt="ss-1" title="Struktur Project" width="200" /><br>Di dalam folder layouts terdapat file main.handlebars, file tersebut merupakan layout dasar dari tampilan yang kita buat. Masukkan kode berikut :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span><br><span class="line">  &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge,chrome=1"</span>&gt;</span><br><span class="line">  &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0"</span>&gt;</span><br><span class="line">	&lt;title&gt;Lacrose - &#123;&#123; title &#125;&#125;&lt;/title&gt;</span><br><span class="line">  &lt;link rel=<span class="string">"stylesheet"</span> <span class="built_in">type</span>=<span class="string">"text/css"</span> href=<span class="string">"/assets/css/style.css"</span>&gt;</span><br><span class="line">	&lt;link rel=<span class="string">"stylesheet"</span> <span class="built_in">type</span>=<span class="string">"text/css"</span> href=<span class="string">"/assets/semantic/semantic.min.css"</span>&gt;</span><br><span class="line">  &lt;script src=<span class="string">"semantic/components/sidebar.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div class=<span class="string">"ui inverted vertical masthead center aligned segment"</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;div class=<span class="string">"ui container"</span>&gt;</span><br><span class="line">    &lt;div class=<span class="string">"ui large inverted secondary pointing menu"</span>&gt;</span><br><span class="line">      &lt;a class=<span class="string">"toc item"</span>&gt;</span><br><span class="line">          &lt;i class=<span class="string">"sidebar icon"</span>&gt;&lt;/i&gt;</span><br><span class="line">        &lt;/a&gt;</span><br><span class="line">      &lt;a href=<span class="string">"/"</span> class=<span class="string">"item"</span>&gt;</span><br><span class="line">        Home</span><br><span class="line">      &lt;/a&gt;</span><br><span class="line">      &lt;a href=<span class="string">"/about"</span> class=<span class="string">"item"</span>&gt;</span><br><span class="line">        About</span><br><span class="line">      &lt;/a&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=<span class="string">"ui vertical inverted sidebar menu left"</span> style=<span class="string">""</span>&gt;</span><br><span class="line">  &lt;a href=<span class="string">"/"</span> class=<span class="string">"active item"</span>&gt;Home&lt;/a&gt;</span><br><span class="line">  &lt;a href=<span class="string">"/about"</span> class=<span class="string">"item"</span>&gt;About&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">	&#123;&#123;&#123; body &#125;&#125;&#125;</span><br><span class="line">&lt;div class=<span class="string">"ui container center aligned footer"</span>&gt;</span><br><span class="line">  &lt;p&gt;</span><br><span class="line">  Made with </span><br><span class="line">  &lt;i class=<span class="string">"heart outline icon"</span>&gt;&lt;/i&gt;</span><br><span class="line">  By Yoni Saka</span><br><span class="line">  &lt;i class=<span class="string">"copyright outline icon"</span>&gt;&lt;/i&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script</span><br><span class="line">  src=<span class="string">"https://code.jquery.com/jquery-3.1.1.min.js"</span></span><br><span class="line">  integrity=<span class="string">"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="</span></span><br><span class="line">  crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"/assets/ckeditor/ckeditor.js"</span>&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=<span class="string">"/assets/semantic/semantic.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Yoni Saka</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/02/13/CRUD-NodeJS-ExpressJS-Semantic-UI-Handlebars/">CRUD NodeJS + ExpressJS + Semantic UI + Handlebars + Mysql (Part 1)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Yoni Saka </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
