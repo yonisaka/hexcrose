@@ -195,6 +195,7 @@
 <p>Sebelum menginstall dependecies kita perlu membuat package.json dengan perintah berikut</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init</span><br></pre></td></tr></table></figure>
 
+
 <p>Setelah itu install semua dependencies dengan perintah berikut</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save express mysql body-parser handlebars</span><br></pre></td></tr></table></figure>
 
@@ -204,23 +205,22 @@
 
 <p>Untuk file css, js, atau assets lainnya saya masukkan di folder public ini termasuk semantic ui nya.</p>
 <h3 id="4-index-js"><a href="#4-index-js" class="headerlink" title="#4 index.js"></a>#4 index.js</h3><p>Jadi main projek kita adalah index.js, mari kita buat dulu ketikan kode berikut :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const path = require(<span class="string">'path'</span>);</span><br><span class="line">const express = require(<span class="string">'express'</span>);</span><br><span class="line">const exphbs = require(<span class="string">'express-handlebars'</span>);</span><br><span class="line">const hbs = require(<span class="string">'handlebars'</span>);</span><br><span class="line">const bodyParser = require(<span class="string">'body-parser'</span>);</span><br><span class="line">const mysql = require(<span class="string">'mysql'</span>);</span><br><span class="line">const app = express();</span><br><span class="line">const multer = require(<span class="string">'multer'</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const path &#x3D; require(&#39;path&#39;);</span><br><span class="line">const express &#x3D; require(&#39;express&#39;);</span><br><span class="line">const exphbs &#x3D; require(&#39;express-handlebars&#39;);</span><br><span class="line">const hbs &#x3D; require(&#39;handlebars&#39;);</span><br><span class="line">const bodyParser &#x3D; require(&#39;body-parser&#39;);</span><br><span class="line">const mysql &#x3D; require(&#39;mysql&#39;);</span><br><span class="line">const app &#x3D; express();</span><br><span class="line">const multer &#x3D; require(&#39;multer&#39;);</span><br></pre></td></tr></table></figure>
 
 <p>Kode diatas digunakan untuk memanggil libary yang kita butuhkan. Lanjut ketikan kode berikut</p>
-<pre><code class="bash">//Config Conn
+<pre><code>//Config Conn
 const conn = mysql.createConnection({
-  host: <span class="string">'localhost'</span>,
-  user: <span class="string">'root'</span>,
-  password: <span class="string">''</span>,
-  database: <span class="string">'lacrose'</span>
+  host: &apos;localhost&apos;,
+  user: &apos;root&apos;,
+  password: &apos;&apos;,
+  database: &apos;lacrose&apos;
 });
 
 //Conn
 conn.connect((err) =&gt;{
-  <span class="keyword">if</span>(err) throw err;
-  console.log(<span class="string">'Mysql Connected'</span>);
-});</code></pre>
-<p>Seperti kalo di php native kita membuat file koneksi. Lanjut ketik kode dibawah ini :</p>
+  if(err) throw err;
+  console.log(&apos;Mysql Connected&apos;);
+});</code></pre><p>Seperti kalo di php native kita membuat file koneksi. Lanjut ketik kode dibawah ini :</p>
 <pre><code class="bash">app.engine(<span class="string">'handlebars'</span>, exphbs({ 
     defaultLayout: <span class="string">'main'</span>,
     layoutsDir: path.join(__dirname,<span class="string">'views/layouts'</span>)
