@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yoni Saka">
+
+
+
+
+
+<title>CRUD AdonisJS + Semantic + Mysql (Part 2) | Lacrose</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Lacrose</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Lacrose</a><a id="mobile-toggle-theme"></a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CRUD AdonisJS + Semantic + Mysql (Part 2)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Yoni Saka</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">February 16, 2020&nbsp;&nbsp;0:17:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="4-Buat-Controller-Blog"><a href="#4-Buat-Controller-Blog" class="headerlink" title="4. Buat Controller Blog"></a>4. Buat Controller Blog</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$adonis make:controller Blog --type http</span><br></pre></td></tr></table></figure>
+
+<p>Pada bagian atas, diluar class BlogController tambahkan kode berikut :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const Blog &#x3D; use(&#39;App&#x2F;Models&#x2F;Blog&#39;);</span><br></pre></td></tr></table></figure>
+<p>Untuk menggunakan model Blog</p>
+<p>Setelah itu dalam class BlogController ketikkan kode berikut :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">async index(&#123;request, response, view&#125;)&#123;</span><br><span class="line">    const blogs = await Blog.all();</span><br><span class="line">    <span class="built_in">return</span> view.render(<span class="string">'index'</span>, &#123; blogs: blogs.rows &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">post(&#123;request, response, view&#125;)&#123;</span><br><span class="line">    <span class="built_in">return</span> view.render(<span class="string">'post'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async store(&#123;request, response, view, session&#125;)&#123;</span><br><span class="line">    const blog = new Blog();</span><br><span class="line"></span><br><span class="line">    blog.title = request.input(<span class="string">'title'</span>);</span><br><span class="line">    blog.description = request.input(<span class="string">'description'</span>);</span><br><span class="line">    await blog.save();</span><br><span class="line"></span><br><span class="line">    session.flash(&#123; notification: <span class="string">'Successfully create!'</span> &#125;);</span><br><span class="line">    <span class="built_in">return</span> response.route(<span class="string">'Blog.index'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async edit(&#123;request, response, view, params&#125;)&#123;</span><br><span class="line">    const id = params.id;</span><br><span class="line">    const blog = await Blog.find(id);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> view.render(<span class="string">'edit'</span>, &#123; blog : blog&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async update(&#123;request, response, view, params, session&#125;)&#123;</span><br><span class="line">    const id = params.id;</span><br><span class="line">    const blog = await Blog.find(id);</span><br><span class="line">    blog.title = request.input(<span class="string">'title'</span>);</span><br><span class="line">    blog.description = request.input(<span class="string">'description'</span>);</span><br><span class="line">    await blog.save();</span><br><span class="line"></span><br><span class="line">    session.flash(&#123; notification: <span class="string">'Successfully update!'</span> &#125;);</span><br><span class="line">    response.redirect(<span class="string">'/'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async delete(&#123;request, response, view, params, session&#125;)&#123;</span><br><span class="line">    const id = params.id;</span><br><span class="line">    const blog = await Blog.find(id);</span><br><span class="line">    await blog.delete();</span><br><span class="line"></span><br><span class="line">    session.flash(&#123; notification: <span class="string">'Successfully delete!'</span> &#125;);</span><br><span class="line">    response.redirect(<span class="string">'/'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Membuat-Halaman"><a href="#5-Membuat-Halaman" class="headerlink" title="5. Membuat Halaman"></a>5. Membuat Halaman</h3><p>Buat halaman pada <strong>resources-&gt;views</strong> Seperti dibawah struktur projeknya :</p>
+<img src="/image/SS_adonis_2.png" alt="Adonis" title="AdonisJS" width="250" />
+
+<p>AdonisJS menggunakan template engine edge yang menurut saya mirip-mirip sama blade nya laravel sih</p>
+<h4 id="base-edge"><a href="#base-edge" class="headerlink" title="base.edge"></a>base.edge</h4><p>Layout utama dalam berada dalam file <strong>base.edge</strong> dengan model partial, kita dapat menggunakan kode <strong>@!section(‘content’)</strong> seperti kebalikan dari blade wkwk</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge,chrome=1"</span>&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0"</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;title&gt;Lacrose | AdonisJS&lt;/title&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> <span class="built_in">type</span>=<span class="string">"text/css"</span> href=<span class="string">"&#123;&#123;assetsUrl('css/style.css')&#125;&#125;"</span>&gt;</span><br><span class="line">	&lt;link rel=<span class="string">"stylesheet"</span> <span class="built_in">type</span>=<span class="string">"text/css"</span> href=<span class="string">"&#123;&#123;assetsUrl('semantic/semantic.min.css')&#125;&#125;"</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=<span class="string">"ui menu"</span>&gt;</span><br><span class="line">        &lt;div class=<span class="string">"ui container"</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">"header item"</span>&gt;</span><br><span class="line">            yonisaka.site</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;a class=<span class="string">"item"</span> href=<span class="string">"/"</span>&gt;</span><br><span class="line">            List Blog</span><br><span class="line">            &lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    @!section(<span class="string">'content'</span>)</span><br><span class="line"></span><br><span class="line">&lt;script</span><br><span class="line">src=<span class="string">"https://code.jquery.com/jquery-3.1.1.min.js"</span></span><br><span class="line">integrity=<span class="string">"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="</span></span><br><span class="line">crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"&#123;&#123;assetsUrl('semantic/semantic.min.js')&#125;&#125;"</span>&gt;&lt;/script&gt;    </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="index-edge"><a href="#index-edge" class="headerlink" title="index.edge"></a>index.edge</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@layout(<span class="string">'base'</span>)</span><br><span class="line"></span><br><span class="line">@yield(<span class="string">'content'</span>)</span><br><span class="line"></span><br><span class="line">&lt;div class=<span class="string">"ui container"</span>&gt;</span><br><span class="line">	&lt;h3 class=<span class="string">"ui header"</span>&gt;List Post&lt;/h3&gt;</span><br><span class="line">	&lt;a class=<span class="string">"ui primary button"</span> href=<span class="string">"/post"</span>&gt; Add &lt;/a&gt;</span><br><span class="line">	@<span class="keyword">if</span>(flashMessage(<span class="string">'notification'</span>))</span><br><span class="line">	&lt;div class=<span class="string">"ui positive message"</span>&gt;</span><br><span class="line">		&lt;div class=<span class="string">"header"</span>&gt;</span><br><span class="line">			&#123;&#123; flashMessage(<span class="string">'notification'</span>) &#125;&#125;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">	@endif</span><br><span class="line">	&lt;table class=<span class="string">"ui very basic collapsing celled table"</span>&gt;</span><br><span class="line">		&lt;thead&gt;</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;th&gt;<span class="comment">#&lt;/th&gt;</span></span><br><span class="line">				&lt;th&gt;Title&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;Date Created&lt;/th&gt;</span><br><span class="line">				&lt;th&gt;Action&lt;/th&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">		&lt;/thead&gt;</span><br><span class="line">		&lt;tbody&gt;</span><br><span class="line">			@each( blog <span class="keyword">in</span> blogs)</span><br><span class="line">			&lt;tr&gt;</span><br><span class="line">				&lt;td&gt;&#123;&#123; blog.id &#125;&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&#123;&#123; blog.title &#125;&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;&#123;&#123; blog.created_at &#125;&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td width=<span class="string">"250px"</span>&gt;</span><br><span class="line">					&lt;a class=<span class="string">"ui secondary button"</span> href=<span class="string">"&#123;&#123; route('Blog.edit', &#123; id : blog.id &#125;) &#125;&#125;"</span>&gt;Edit&lt;/a&gt;	</span><br><span class="line">					&lt;a class=<span class="string">"ui red button"</span> href=<span class="string">"&#123;&#123; route('Blog.delete', &#123; id : blog.id &#125;) &#125;&#125;"</span>&gt;Delete&lt;/a&gt;</span><br><span class="line">				&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">			@endeach</span><br><span class="line">		&lt;/tbody&gt;</span><br><span class="line">	&lt;/table&gt;</span><br><span class="line">&lt;/div&gt;  </span><br><span class="line"></span><br><span class="line">@endyield</span><br></pre></td></tr></table></figure>
+<h4 id="post-edge"><a href="#post-edge" class="headerlink" title="post.edge"></a>post.edge</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@layout(<span class="string">'base'</span>)</span><br><span class="line"></span><br><span class="line">@yield(<span class="string">'content'</span>)</span><br><span class="line"></span><br><span class="line">&lt;div class=<span class="string">"ui container text"</span>&gt;</span><br><span class="line">    &lt;form class=<span class="string">"ui form"</span> action=<span class="string">"&#123;&#123; route('Blog.store') &#125;&#125;"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">        &#123;&#123; csrfField() &#125;&#125;</span><br><span class="line">        &lt;div class=<span class="string">"field"</span>&gt;</span><br><span class="line">          &lt;label&gt;Title&lt;/label&gt;</span><br><span class="line">          &lt;input <span class="built_in">type</span>=<span class="string">"text"</span> name=<span class="string">"title"</span> placeholder=<span class="string">"Title"</span>&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">"field"</span>&gt;</span><br><span class="line">          &lt;label&gt;Description&lt;/label&gt;</span><br><span class="line">          &lt;textarea name=<span class="string">"description"</span> id=<span class="string">""</span> cols=<span class="string">"30"</span> rows=<span class="string">"15"</span>&gt;&lt;/textarea&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;button class=<span class="string">"ui button"</span> <span class="built_in">type</span>=<span class="string">"submit"</span>&gt;Submit&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/div&gt;  </span><br><span class="line"></span><br><span class="line">@endyield</span><br></pre></td></tr></table></figure>
+<h4 id="edit-edge"><a href="#edit-edge" class="headerlink" title="edit.edge"></a>edit.edge</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@layout(<span class="string">'base'</span>)</span><br><span class="line"></span><br><span class="line">@yield(<span class="string">'content'</span>)</span><br><span class="line"></span><br><span class="line">&lt;div class=<span class="string">"ui container text"</span>&gt;</span><br><span class="line">    &lt;form class=<span class="string">"ui form"</span> action=<span class="string">"&#123;&#123; route('Blog.update', &#123; id : blog.id&#125; ) &#125;&#125;"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">        &#123;&#123; csrfField() &#125;&#125;</span><br><span class="line">        &lt;div class=<span class="string">"field"</span>&gt;</span><br><span class="line">          &lt;label&gt;Title&lt;/label&gt;</span><br><span class="line">          &lt;input <span class="built_in">type</span>=<span class="string">"text"</span> name=<span class="string">"title"</span> value=<span class="string">"&#123;&#123; blog.title &#125;&#125;"</span>&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=<span class="string">"field"</span>&gt;</span><br><span class="line">          &lt;label&gt;Description&lt;/label&gt;</span><br><span class="line">        &lt;textarea name=<span class="string">"description"</span> id=<span class="string">""</span> cols=<span class="string">"30"</span> rows=<span class="string">"15"</span>&gt;&#123;&#123; blog.description &#125;&#125;&lt;/textarea&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;button class=<span class="string">"ui button"</span> <span class="built_in">type</span>=<span class="string">"submit"</span>&gt;Submit&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/div&gt;  </span><br><span class="line"></span><br><span class="line">@endyield</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-Routes-js"><a href="#6-Routes-js" class="headerlink" title="6. Routes.js"></a>6. Routes.js</h3><p>File <strong>start-&gt;routes.js</strong> fungsinya seperti di <strong>routes-&gt;web.php</strong> pada laravel ya. Tambahkan kode berikut :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Route.get(<span class="string">'/'</span>, <span class="string">'BlogController.index'</span>).as(<span class="string">'Blog.index'</span>)</span><br><span class="line">Route.get(<span class="string">'/post'</span>, <span class="string">'BlogController.post'</span>).as(<span class="string">'Blog.post'</span>)</span><br><span class="line">Route.get(<span class="string">'/edit/:id'</span>, <span class="string">'BlogController.edit'</span>).as(<span class="string">'Blog.edit'</span>)</span><br><span class="line">Route.get(<span class="string">'/delete/:id'</span>, <span class="string">'BlogController.delete'</span>).as(<span class="string">'Blog.delete'</span>)</span><br><span class="line">Route.post(<span class="string">'/store'</span>, <span class="string">'BlogController.store'</span>).as(<span class="string">'Blog.store'</span>)</span><br><span class="line">Route.post(<span class="string">'/update/:id'</span>, <span class="string">'BlogController.update'</span>).as(<span class="string">'Blog.update'</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-Hasil-Projek"><a href="#7-Hasil-Projek" class="headerlink" title="7. Hasil Projek"></a>7. Hasil Projek</h3><p>Setelah selesai maka kita coba jalankan projeknya</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$adonis serve</span><br></pre></td></tr></table></figure>
+
+<p>Kita cek <strong>localhost:3333</strong> :</p>
+<img src="/image/SS_adonis_3.png" alt="Adonis" title="AdonisJS" width="800" />
+
+<p>Projeknya sudah jadi, sekian dulu dari saya, maaf jika ada kesalahan.</p>
+<blockquote><p>If at first you don`t succeed; call it version 1.0</p>
+<footer><strong>– Yoni Saka</strong></footer></blockquote>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Yoni Saka</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Tutorial/"># Tutorial</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/02/19/Bagaimana-blog-ini-dibuat/">Bagaimana blog ini dibuat?</a>
+            
+            
+            <a class="next" rel="next" href="/2020/02/15/CRUD-AdonisJS-Semantic-Mysql/">CRUD AdonisJS + Semantic + Mysql (Part 1)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Yoni Saka </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

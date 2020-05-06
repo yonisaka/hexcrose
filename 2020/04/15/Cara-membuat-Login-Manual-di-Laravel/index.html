@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Yoni Saka">
+
+
+
+
+
+<title>Cara membuat Login Manual di Laravel | Lacrose</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Lacrose</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Lacrose</a><a id="mobile-toggle-theme"></a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu </div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Cara membuat Login Manual di Laravel</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Yoni Saka</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">April 15, 2020&nbsp;&nbsp;12:36:06</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Haloo, kali ini saya akan share cara membuat Login Manual di Laravel. Sebenarnya Laravel sendiri sudah menyediakan fitur auth untuk membuat menu login/register secara otomatis, bisa dilihat <a href="https://laravel.com/docs/7.x/authentication" target="_blank" rel="noopener">disini</a></p>
+<h2 id="Membuat-Model-dan-Migration-untuk-tabel-user"><a href="#Membuat-Model-dan-Migration-untuk-tabel-user" class="headerlink" title="Membuat Model dan Migration untuk tabel user"></a>Membuat Model dan Migration untuk tabel user</h2><p>Dalam laravel, default nya sudah ada model dan migration untuk user, maka sebelumnya saya hapus dulu. Lalu buat kembali model dan migration untuk user nya</p>
+<h3 id="Model-User"><a href="#Model-User" class="headerlink" title="Model User"></a>Model User</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App;</span><br><span class="line"></span><br><span class="line">use Illuminate\Database\Eloquent\Model;</span><br><span class="line"></span><br><span class="line">class User extends Model</span><br><span class="line">&#123;</span><br><span class="line">    protected $table &#x3D; &#39;users&#39;;</span><br><span class="line">    public $timestamps &#x3D; false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Migration-User"><a href="#Migration-User" class="headerlink" title="Migration User"></a>Migration User</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">use Illuminate\Database\Migrations\Migration;</span><br><span class="line">use Illuminate\Database\Schema\Blueprint;</span><br><span class="line">use Illuminate\Support\Facades\Schema;</span><br><span class="line"></span><br><span class="line">class CreateUsersTable extends Migration</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Run the migrations.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function up()</span><br><span class="line">    &#123;</span><br><span class="line">        Schema::create(&#39;users&#39;, function (Blueprint $table) &#123;</span><br><span class="line">            $table-&gt;increments(&#39;id&#39;);</span><br><span class="line">            $table-&gt;string(&#39;username&#39;);</span><br><span class="line">            $table-&gt;string(&#39;password&#39;, 255);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Reverse the migrations.</span><br><span class="line">     *</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function down()</span><br><span class="line">    &#123;</span><br><span class="line">        Schema::dropIfExists(&#39;users&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-halaman-login"><a href="#Membuat-halaman-login" class="headerlink" title="Membuat halaman login"></a>Membuat halaman login</h2><p>Membuat folder auth di dalam direktori views, kemudian membuat login.blade.php di dalamnya.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;</span><br><span class="line">&lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;</span><br><span class="line">&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1&quot;&gt;</span><br><span class="line">&lt;title&gt;Lacrose | Login&lt;&#x2F;title&gt;</span><br><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;&#123;&#123;asset(&#39;css&#x2F;app.css&#39;)&#125;&#125; &quot;&gt;</span><br><span class="line">&lt;style type&#x3D;&quot;text&#x2F;css&quot;&gt;</span><br><span class="line">	.login-form &#123;</span><br><span class="line">        padding-top: 100px;</span><br><span class="line">		width: 340px;</span><br><span class="line">    	margin: 50px auto;</span><br><span class="line">	&#125;</span><br><span class="line">    .login-form form &#123;</span><br><span class="line">    	margin-bottom: 15px;</span><br><span class="line">        background: #f7f7f7;</span><br><span class="line">        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);</span><br><span class="line">        padding: 30px;</span><br><span class="line">    &#125;</span><br><span class="line">    .login-form h2 &#123;</span><br><span class="line">        margin: 0 0 15px;</span><br><span class="line">    &#125;</span><br><span class="line">    .form-control, .btn &#123;</span><br><span class="line">        min-height: 38px;</span><br><span class="line">        border-radius: 2px;</span><br><span class="line">    &#125;</span><br><span class="line">    .btn &#123;        </span><br><span class="line">        font-size: 15px;</span><br><span class="line">        font-weight: bold;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  </span><br><span class="line">&lt;div class&#x3D;&quot;login-form&quot;&gt;</span><br><span class="line">    @if(\Session::has(&#39;alert&#39;))</span><br><span class="line">    &lt;div class&#x3D;&quot;alert alert-danger&quot;&gt;</span><br><span class="line">        &lt;div&gt;&#123;&#123;Session::get(&#39;alert&#39;)&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    @endif</span><br><span class="line">    @if(\Session::has(&#39;alert-success&#39;))</span><br><span class="line">        &lt;div class&#x3D;&quot;alert alert-success&quot;&gt;</span><br><span class="line">            &lt;div&gt;&#123;&#123;Session::get(&#39;alert-success&#39;)&#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    @endif  </span><br><span class="line">    &lt;form action&#x3D;&quot;&#x2F;login&#x2F;auth&quot; method&#x3D;&quot;POST&quot;&gt;</span><br><span class="line">        @csrf</span><br><span class="line">        &lt;h2 class&#x3D;&quot;text-center&quot;&gt;Log in&lt;&#x2F;h2&gt;       </span><br><span class="line">        &lt;div class&#x3D;&quot;form-group&quot;&gt;</span><br><span class="line">            &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;Username&quot; required&#x3D;&quot;required&quot;&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;form-group&quot;&gt;</span><br><span class="line">            &lt;input type&#x3D;&quot;password&quot; class&#x3D;&quot;form-control&quot; name&#x3D;&quot;password&quot; placeholder&#x3D;&quot;Password&quot; required&#x3D;&quot;required&quot;&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;form-group&quot;&gt;</span><br><span class="line">            &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-secondary btn-block&quot;&gt;Log in&lt;&#x2F;button&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;     </span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;code.jquery.com&#x2F;jquery-3.3.1.slim.min.js&quot; integrity&#x3D;&quot;sha384-q8i&#x2F;X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo&quot; crossorigin&#x3D;&quot;anonymous&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script src&#x3D;&quot;&#123;&#123;asset(&#39;js&#x2F;app.js&#39;)&#125;&#125; &quot;&gt;&lt;&#x2F;script&gt; </span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-route-untuk-menampilkan-halaman-login-dan-aksi-auth"><a href="#Membuat-route-untuk-menampilkan-halaman-login-dan-aksi-auth" class="headerlink" title="Membuat route untuk menampilkan halaman login dan aksi auth"></a>Membuat route untuk menampilkan halaman login dan aksi auth</h2><p>Route add_user disini digunakan untuk menginputkan sebuah user. Karena kali ini menggunakan bycrpt untuk enskripsinya.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&#39;&#x2F;&#39;,&#39;AuthController@index&#39;);</span><br><span class="line">Route::get(&#39;&#x2F;login&#39;,&#39;AuthController@index&#39;);</span><br><span class="line">Route::post(&#39;&#x2F;login&#x2F;auth&#39;,&#39;AuthController@auth&#39;);</span><br><span class="line">Route::get(&#39;&#x2F;logout&#39;,&#39;AuthController@logout&#39;);</span><br><span class="line">Route::get(&#39;&#x2F;add_user&#39;,&#39;AuthController@add_user&#39;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-AuthController"><a href="#Membuat-AuthController" class="headerlink" title="Membuat AuthController"></a>Membuat AuthController</h2><p>Selanjutnya membuat auth controller untuk proses yang berhubungan dengan authentifikasi</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Http\Request;</span><br><span class="line">use Illuminate\Support\Facades\Hash;</span><br><span class="line">use Illuminate\Support\Facades\Session;</span><br><span class="line">use App\User;</span><br><span class="line"></span><br><span class="line">class AuthController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index()&#123;</span><br><span class="line">    	return view(&#39;auth.login&#39;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function auth(Request $request)&#123;</span><br><span class="line">    	$username &#x3D; $request-&gt;username;</span><br><span class="line">        $password &#x3D; $request-&gt;password;</span><br><span class="line"></span><br><span class="line">        $data &#x3D; User::where(&#39;username&#39;,$username)-&gt;first();</span><br><span class="line">            if($data)&#123;</span><br><span class="line">                if(Hash::check($password,$data-&gt;password))&#123;</span><br><span class="line">                    Session::put(&#39;username&#39;,$data-&gt;username);</span><br><span class="line">                    Session::put(&#39;login&#39;,TRUE);</span><br><span class="line">                    return redirect(&#39;&#x2F;admin&#39;);</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;</span><br><span class="line">                    return redirect(&#39;&#x2F;login&#39;)-&gt;with(&#39;alert&#39;,&#39;Username atau Password salah!&#39;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;   </span><br><span class="line">            else&#123;</span><br><span class="line">                return redirect(&#39;&#x2F;login&#39;)-&gt;with(&#39;alert&#39;,&#39;Username atau Password salah!&#39;);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function logout()&#123;</span><br><span class="line">        Session::flush();</span><br><span class="line">        return redirect(&#39;&#x2F;login&#39;)-&gt;with(&#39;alert-success&#39;,&#39;Kamu sudah logout&#39;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function add_user()&#123;</span><br><span class="line">    	$data &#x3D; new User();</span><br><span class="line">    	$data-&gt;username &#x3D; &#39;admin&#39;;</span><br><span class="line">    	$data-&gt;password &#x3D; bcrypt(&#39;admin&#39;);</span><br><span class="line">    	$data-&gt;save();</span><br><span class="line">    	return redirect (&#39;&#x2F;login&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-Middleware-cekStatus"><a href="#Membuat-Middleware-cekStatus" class="headerlink" title="Membuat Middleware cekStatus"></a>Membuat Middleware cekStatus</h2><p>Cara membuat middleware bisa dilihat <a href="https://laravel.com/docs/7.x/middleware#introduction" target="_blank" rel="noopener">disini</a>. Middleware yang kita buat disini digunakan jika ada user yang belum login dan mencoba mengakses halaman didalam akses user tersebut, maka akan dikembalikan ke halaman login.<br>Masuk ke middleware yang telah dibuat, disini saya menggunakan nama cekStatus, lalu tambahkan sintaks berikut dalam fungsi handle, jangan lupa panggil library session nya.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(!Session::get(&#39;login&#39;))&#123;</span><br><span class="line">            return redirect(&#39;&#x2F;login&#39;)-&gt;with(&#39;alert&#39;,&#39;Kamu harus login dulu&#39;);</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;</span><br><span class="line">            return $next($request);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>Kemudian tambahkan Middleware cekStatus tadi di file Kernel.php pada bagian protected $routeMiddleware</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;cekstatus&#39; &#x3D;&gt; \App\Http\Middleware\cekStatus::class,</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-Route-untuk-halaman-yang-dituju-setelah-menu-login"><a href="#Membuat-Route-untuk-halaman-yang-dituju-setelah-menu-login" class="headerlink" title="Membuat Route untuk halaman yang dituju setelah menu login"></a>Membuat Route untuk halaman yang dituju setelah menu login</h2><p>Jangan lupa tambahkan middleware cekstatus di sebelah kanan untuk mengaktifkan middleware yang sudah dibuat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&#39;&#x2F;admin&#39;,&#39;AdminController@index&#39;)-&gt;middleware(&#39;cekstatus&#39;);</span><br><span class="line">Route::get(&#39;&#x2F;pegawai&#39;,&#39;AdminController@pegawai&#39;)-&gt;middleware(&#39;cekstatus&#39;);</span><br><span class="line">Route::get(&#39;&#x2F;perusahaan&#39;,&#39;AdminController@perusahaan&#39;)-&gt;middleware(&#39;cekstatus&#39;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Membuat-AdminController"><a href="#Membuat-AdminController" class="headerlink" title="Membuat AdminController"></a>Membuat AdminController</h2><p>Halaman disini bisa disesuaikan punya kita masing-masing</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Http\Request;</span><br><span class="line">use Illuminate\Support\Facades\Session;</span><br><span class="line">use App\Pegawai;</span><br><span class="line">use App\Perusahaan;</span><br><span class="line">use App\Project;</span><br><span class="line"></span><br><span class="line">class AdminController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    public function index()&#123;</span><br><span class="line">    	$project &#x3D; Project::all();</span><br><span class="line">        return view(&#39;admin.index&#39;,[&#39;project&#39; &#x3D;&gt; $project]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function pegawai()&#123;</span><br><span class="line">    	$pegawai &#x3D; Pegawai::all();</span><br><span class="line">        return view(&#39;admin.pegawai&#39;,[&#39;pegawai&#39; &#x3D;&gt; $pegawai]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function perusahaan()&#123;</span><br><span class="line">    	$perusahaan &#x3D; Perusahaan::all();</span><br><span class="line">        return view(&#39;admin.perusahaan&#39;,[&#39;perusahaan&#39; &#x3D;&gt; $perusahaan]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hasilnya"><a href="#Hasilnya" class="headerlink" title="Hasilnya"></a>Hasilnya</h2><h3 id="Halaman-login"><a href="#Halaman-login" class="headerlink" title="Halaman login"></a>Halaman login</h3><img src="/image/SS_Login_1.png" alt="Laravel Login" title="Laravel Login" width="350" />
+
+<h3 id="Jika-user-mencoba-mengakses-halaman-sebelum-melakukan-login"><a href="#Jika-user-mencoba-mengakses-halaman-sebelum-melakukan-login" class="headerlink" title="Jika user mencoba mengakses halaman sebelum melakukan login"></a>Jika user mencoba mengakses halaman sebelum melakukan login</h3><img src="/image/SS_Login_2.png" alt="Laravel Login" title="Laravel Login" width="350" />
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Yoni Saka</span>
+                    </p>
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Tutorial/"># Tutorial</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/03/13/Cara-install-Ionic/">Cara install Ionic</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Yoni Saka </span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
